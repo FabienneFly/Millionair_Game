@@ -13,6 +13,7 @@ import java.util.Scanner;
  */
 public class Life //make a hint and skip
 {
+
     private ArrayList<Questions> question;
     public int hint = 3;
     public int skip = 1;
@@ -25,18 +26,15 @@ public class Life //make a hint and skip
         this.hq = hq;
     }
 
-    public String getha() 
-    {
+    public String getha() {
         return this.ha;
     }
 
-    public String gethq() 
-    {
+    public String gethq() {
         return this.hq;
     }
 
-    public void doHint(String hq) 
-    {
+    public void doHint(String hq) {
         Scanner scan = new Scanner(System.in);
         if (input.equalsIgnoreCase("H")) {
             while (true) {
@@ -45,7 +43,7 @@ public class Life //make a hint and skip
                     do {
                         input = scan.nextLine();
 
-                    } while (!this.isValidAnswer(input));
+                    } while (!this.isValidAnswer(input, input));
                     hint--;
                 }
                 if (hint == 0) {
@@ -58,7 +56,7 @@ public class Life //make a hint and skip
         }
     }
 
-    public void doSkip(MultipleChoiceQuestion question, String hq) {
+    public void doSkip(Questions[] question, String hq) {
         Scanner scan = new Scanner(System.in);
         if (input.equalsIgnoreCase("T")) {
             while (true) {
@@ -67,7 +65,7 @@ public class Life //make a hint and skip
                     do {
                         input = scan.nextLine();
 
-                    } while (!this.isValidAnswer(input));
+                    } while (!this.isValidAnswer(input, input));
                     skip--;
                 }
                 if (skip == 0) {
@@ -79,7 +77,7 @@ public class Life //make a hint and skip
         }
     }
 
-    private boolean isValidAnswer(String answer) {
+    private boolean isValidAnswer(String answer, String hintanswer) {
         if (answer.equalsIgnoreCase("H")) {
             return true;
         }
