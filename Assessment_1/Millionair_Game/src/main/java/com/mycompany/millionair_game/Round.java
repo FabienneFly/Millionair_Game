@@ -48,11 +48,17 @@ public class Round {
                     if (i == 9) {
                         System.out.println("Congratulations! You answered all 10 questions correctly.");
                         saveScore.saveStats(player.getName(), player.getMoney());
+                        FileIO fileIO = new FileIO();
+                        fileIO.printHighScores();
+
                     }
                 } else {
                     System.out.println("Incorrect. The correct answer is: " + multipleChoiceQuestion.getCorrectAnswer());
                     System.out.println("Thank you for playing, your score is: " + player.getMoney() + "$");
                     saveScore.saveStats(player.getName(), player.getMoney());
+                    FileIO fileIO = new FileIO();
+                    fileIO.printHighScores();
+
                     break;
                 }
             } catch (NumberFormatException e) {

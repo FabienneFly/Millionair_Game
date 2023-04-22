@@ -48,7 +48,7 @@ public class MultipleChoiceQuestion {
             }
             // Save the question to a file
             FileIO fileIO = new FileIO();
-            fileIO.saveQuestion(index, question);
+            fileIO.saveQuestion(question);
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
