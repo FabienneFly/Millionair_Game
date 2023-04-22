@@ -1,0 +1,14 @@
+
+The game consists of a series of multiple-choice questions.
+----------------------------------------------------------------------------------------------------------------------
+1. Your goal is to answer all the questions correctly and win the top prize of one million dollars.
+2. You will be given four possible answers for each question, and you must choose the one that you think is correct.
+3. You have three "lifelines" that you can use to help you answer a question: 1x a 50/50-joker and 2x a Skip-joker.
+4. If you answer a question correctly, you will advance to the next question and your potential winnings will increase.
+5. If you answer a question incorrectly, you will lose all your winnings and the game will be over.
+6. If you reach the end of the game and answer the final question correctly, you will win the top prize.
+----------------------------------------------------------------------------------------------------------------------
+
+That's it! Have fun!
+
+----------------------------------------------------------------------------------------------------------------------
