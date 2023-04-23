@@ -10,13 +10,13 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class MultipleChoiceQuestion implements IQuestion {
+public class MultipleChoiceQuestion {
 
     private String question;
     private String correctAnswer;
     private String[] wrongAnswers;
 
-    @Override
+    
     public void fetchQuestion(int questionIndex) {
         try {
             // Set up the API endpoint URL
@@ -56,7 +56,6 @@ public class MultipleChoiceQuestion implements IQuestion {
         }
     }
 
-    @Override
     public List<String> printQuestion(int questionIndex) {
         System.out.println((questionIndex + 1) + ". " + question);
 
@@ -77,7 +76,6 @@ public class MultipleChoiceQuestion implements IQuestion {
         return allAnswers;
     }
 
-    @Override
     public String getCorrectAnswer() {
         return correctAnswer;
     }

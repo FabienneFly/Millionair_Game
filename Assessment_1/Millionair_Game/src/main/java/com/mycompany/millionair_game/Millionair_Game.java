@@ -32,9 +32,8 @@ public class Millionair_Game {
                     System.out.println("Please enter your Name: ");
                     String playerName = scanner.nextLine();
                     Player currentPlayer = new Player(playerName, 0);
-                    IQuestion question = new MultipleChoiceQuestion();
-                    IStatsManager statsManager = new FileIO();
-                    Round round = new Round(currentPlayer, question, statsManager);
+      
+                    Round round = new Round(currentPlayer);
                     round.playQuestion();
                     validInput = true;
 

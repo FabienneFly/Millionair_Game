@@ -4,6 +4,7 @@
  */
 package com.mycompany.millionair_game;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,14 +14,14 @@ import java.util.Scanner;
  */
 public class Round {
 
+    private final HashMap<String, Player> players;
     private final Player player;
-    private IQuestion multipleChoiceQuestion;
-    private final IStatsManager saveScore;
+    private MultipleChoiceQuestion multipleChoiceQuestion;
+    private final FileIO saveScore = new FileIO();
 
-    public Round(Player player, IQuestion multipleChoiceQuestion, IStatsManager saveScore) {
+    public Round(Player player) {
+        this.players = new HashMap<>();
         this.player = player;
-        this.multipleChoiceQuestion = multipleChoiceQuestion;
-        this.saveScore = saveScore;
     }
 
     public void playQuestion() {

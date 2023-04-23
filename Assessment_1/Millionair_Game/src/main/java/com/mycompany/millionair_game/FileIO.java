@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author FabiF
  */
-public class FileIO implements IStatsManager {
+public class FileIO {
 
     public void HelpScreen() {
         try {
@@ -33,7 +33,6 @@ public class FileIO implements IStatsManager {
         }
     }
 
-    @Override
     public void saveStats(String playerName, int score) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("playerScore.txt", true))) {
             writer.write(playerName + " - " + score + "\n");
@@ -72,7 +71,7 @@ public class FileIO implements IStatsManager {
         return highScores;
     }
 
-    @Override
+    
     public void printHighScores() {
         List<Player> highScores = getHighScores();
 
