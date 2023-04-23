@@ -10,16 +10,17 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class MultipleChoiceQuestion {
+public class MultipleChoiceQuestion implements IQuestion {
 
     private String question;
     private String correctAnswer;
     private String[] wrongAnswers;
 
-    public void fetchQuestion(int index) {
+    @Override
+    public void fetchQuestion(int questionIndex) {
         try {
             // Set up the API endpoint URL
-            String endpoint = "https://opentdb.com/api.php?amount=1&type=multiple";
+            String endpoint = "https://opentdb.com/api.php?amount=1&difficulty=easy&type=multiple";
             URL url = new URL(endpoint);
 
             // Create an HTTP connection and set the request method to GET
@@ -55,8 +56,9 @@ public class MultipleChoiceQuestion {
         }
     }
 
-    public List<String> printQuestion(int index) {
-        System.out.println((index + 1) + ". " + question);
+    @Override
+    public List<String> printQuestion(int questionIndex) {
+        System.out.println((questionIndex + 1) + ". " + question);
 
         // Create a list to hold all answers (correct and incorrect)
         List<String> allAnswers = new ArrayList<>();
@@ -75,6 +77,7 @@ public class MultipleChoiceQuestion {
         return allAnswers;
     }
 
+    @Override
     public String getCorrectAnswer() {
         return correctAnswer;
     }
