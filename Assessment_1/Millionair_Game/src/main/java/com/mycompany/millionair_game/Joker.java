@@ -8,10 +8,7 @@ package com.mycompany.millionair_game;
  *
  * @author FabiF
  */
-
-
-
-public abstract class Joker {
+public class Joker {
 
     private boolean used;
 
@@ -19,13 +16,11 @@ public abstract class Joker {
         used = false;
     }
 
-    public abstract void use(String correctAnswer, String[] answers);
-
     public boolean isUsed() {
         return used;
     }
 
-    protected void setUsed(boolean used) {
+    public void setUsed(boolean used) {
         this.used = used;
     }
 }

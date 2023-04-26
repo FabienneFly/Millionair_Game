@@ -19,15 +19,15 @@ public class MultipleChoiceQuestion {
     
     public void fetchQuestion(int questionIndex) {
         try {
-            // Set up the API endpoint URL
+            // API
             String endpoint = "https://opentdb.com/api.php?amount=1&difficulty=easy&type=multiple";
             URL url = new URL(endpoint);
 
-            // Create an HTTP connection and set the request method to GET
+            // HTTP connection & request method
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
-            // Read the response from API
+            // Read response
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
             StringBuilder response = new StringBuilder();
@@ -37,6 +37,7 @@ public class MultipleChoiceQuestion {
             in.close();
 
             // Parse the JSON response and extract the question
+            // Chatgpt
             JSONObject jsonObj = new JSONObject(response.toString());
             JSONArray resultsArr = jsonObj.getJSONArray("results");
             JSONObject resultObj = resultsArr.getJSONObject(0);
@@ -69,9 +70,9 @@ public class MultipleChoiceQuestion {
 
         // Print
         for (int j = 0; j < allAnswers.size(); j++) {
-            System.out.println("  " + (j + 1) + ". " + allAnswers.get(j));
+            System.out.println("  " + (j + 1) + ". " + 
+allAnswers.get(j));
         }
-
         System.out.println();
         return allAnswers;
     }

@@ -6,6 +6,7 @@ package com.mycompany.millionair_game;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,13 +24,16 @@ public class FileIO {
         try {
             FileReader fileReader = new FileReader("helpScreen.txt");
             try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-                String line;
+                String line = null;
                 while ((line = bufferedReader.readLine()) != null) {
                     System.out.println(line);
+                    bufferedReader.close();
                 }
             }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.");
         } catch (IOException e) {
-            System.out.println("Error reading help screen file: " + e.getMessage());
+            System.out.println("Error reading from file.");
         }
     }
 
@@ -71,7 +75,6 @@ public class FileIO {
         return highScores;
     }
 
-    
     public void printHighScores() {
         List<Player> highScores = getHighScores();
 

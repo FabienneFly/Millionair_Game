@@ -17,8 +17,9 @@ public class Round {
     private final HashMap<String, Player> players;
     private final Player player;
     private MultipleChoiceQuestion multipleChoiceQuestion;
-    private final FileIO saveScore = new FileIO();
-    private Life life;
+    private final FileIO score = new FileIO();
+    private Hint hint;
+    private Skip skip;
 
     public Round(Player player) {
         this.players = new HashMap<>();
@@ -27,8 +28,8 @@ public class Round {
 
     public void playQuestion() {
         multipleChoiceQuestion = new MultipleChoiceQuestion();
-        life = new Life();
-
+        hint = new Hint();
+        skip = new Skip();
         int questionIndex = 0;
 
         while (questionIndex < 10) {
@@ -40,35 +41,43 @@ public class Round {
             boolean questionAnsweredOrSkipped = false;
 
             while (!questionAnsweredOrSkipped) {
-                //TODO: Make output into string and change after use (delete the joker which was already used)
-                System.out.println("Press 'H' button for a hint, press 'T' to Skip the question or enter your answer!");
+                System.out.println(getJokerMessage());
                 playerAnswerString = scanner.nextLine().toUpperCase();
 
-                if (playerAnswerString.equals("H")) {
-                    // Use 50/50 hint
-                    life.useFiftyFifty(multipleChoiceQuestion.getCorrectAnswer(), shuffledAnswers.toArray(new String[0]));
-                } else if (playerAnswerString.equals("T")) {
-                    // Use skip option
-                    life.useSkip();
-                    questionIndex++;
-                    questionAnsweredOrSkipped = true;
-                } else {
-                    try {
+                switch (playerAnswerString) {
+                    case "H":
+                        // Use 50/50 hint
+                        hint.useFiftyFifty(multipleChoiceQuestion.getCorrectAnswer(), shuffledAnswers.toArray(new String[0]));
+                        break;
+                    case "T":
+                        // Use skip option
+                        if (skip.useSkip()) {
+                            questionIndex++;
+                            questionAnsweredOrSkipped = true;
+                        }
+                        break;
+                    default:
+                        try {
                         int playerAnswer = Integer.parseInt(playerAnswerString);
 
                         if (shuffledAnswers.get(playerAnswer - 1).equals(multipleChoiceQuestion.getCorrectAnswer())) {
                             System.out.println("Correct! You get +100,000$");
+                            player.setMoney(player.getMoney() + 100000);
                             System.out.println("");
                             if (questionIndex == 9) {
                                 System.out.println("Congratulations! You answered all 10 questions correctly.");
-                                saveScore.saveStats(player.getName(), player.getMoney());
+                                score.saveStats(player.getName(), player.getMoney());
+                                score.printHighScores();
+
                             }
                             questionIndex++;
                             questionAnsweredOrSkipped = true;
                         } else {
                             System.out.println("Incorrect. The correct answer is: " + multipleChoiceQuestion.getCorrectAnswer());
                             System.out.println("Thank you for playing, your score is: " + player.getMoney() + "$");
-                            saveScore.saveStats(player.getName(), player.getMoney());
+
+                            score.saveStats(player.getName(), player.getMoney());
+                            score.printHighScores();
                             questionIndex = 10; // Exit the loop
                             questionAnsweredOrSkipped = true;
                         }
@@ -76,6 +85,7 @@ public class Round {
                         System.out.println("Invalid input. Please enter a valid number.");
                         System.out.println("");
                     }
+                    break;
                 }
             }
 
@@ -85,4 +95,15 @@ public class Round {
         }
     }
 
+    public String getJokerMessage() {
+        if (!hint.isUsed() && !skip.isUsed()) {
+            return "Enter your answer or press 'H' for a hint. Press 'T' to skip the question.";
+        } else if (!hint.isUsed()) {
+            return "Enter your answer or press 'H' for a hint.";
+        } else if (!skip.isUsed()) {
+            return "Enter your answer or press 'T' to skip the question.";
+        } else {
+            return "No Joker left. Please enter your answer";
+        }
+    }
 }

@@ -17,7 +17,7 @@ public class Player {
         this.player = player;
         this.money = money;
     }
-    
+
     public String getName() {
         return player;
     }
