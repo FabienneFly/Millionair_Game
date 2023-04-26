@@ -18,6 +18,7 @@ public class Round {
     private final Player player;
     private MultipleChoiceQuestion multipleChoiceQuestion;
     private final FileIO saveScore = new FileIO();
+    private Life life;
 
     public Round(Player player) {
         this.players = new HashMap<>();
@@ -26,13 +27,30 @@ public class Round {
 
     public void playQuestion() {
         multipleChoiceQuestion = new MultipleChoiceQuestion();
+        life = new Life();
 
         for (int i = 0; i < 10; i++) {
             multipleChoiceQuestion.fetchQuestion(i);
 
             Scanner scanner = new Scanner(System.in);
             List<String> shuffledAnswers = multipleChoiceQuestion.printQuestion(i);
-            String playerAnswerString = scanner.nextLine();
+            String playerAnswerString = "";
+
+            while (true) {
+                System.out.println("Press 'H' button for a hint, press 'T' to Skip the question or enter your answer!");
+                playerAnswerString = scanner.nextLine().toUpperCase();
+
+                if (playerAnswerString.equals("H")) {
+                    // Use 50/50 hint
+                    life.useFiftyFifty(multipleChoiceQuestion.getCorrectAnswer(), shuffledAnswers.toArray(new String[0]));
+                } else if (playerAnswerString.equals("T")) {
+                    // Use skip option
+                    life.useSkip();
+                    break;
+                } else {
+                    break;
+                }
+            }
 
             if (playerAnswerString.toLowerCase().equals("x")) {
                 break;
@@ -43,22 +61,15 @@ public class Round {
 
                 if (shuffledAnswers.get(playerAnswer - 1).equals(multipleChoiceQuestion.getCorrectAnswer())) {
                     System.out.println("Correct! You get +100,000$");
-                    player.setMoney(player.getMoney() + 100000);
                     System.out.println("");
                     if (i == 9) {
                         System.out.println("Congratulations! You answered all 10 questions correctly.");
                         saveScore.saveStats(player.getName(), player.getMoney());
-                        FileIO fileIO = new FileIO();
-                        fileIO.printHighScores();
-
                     }
                 } else {
                     System.out.println("Incorrect. The correct answer is: " + multipleChoiceQuestion.getCorrectAnswer());
                     System.out.println("Thank you for playing, your score is: " + player.getMoney() + "$");
                     saveScore.saveStats(player.getName(), player.getMoney());
-                    FileIO fileIO = new FileIO();
-                    fileIO.printHighScores();
-
                     break;
                 }
             } catch (NumberFormatException e) {
@@ -67,4 +78,5 @@ public class Round {
             }
         }
     }
+
 }

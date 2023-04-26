@@ -8,13 +8,11 @@ package com.mycompany.millionair_game;
  *
  * @author FabiF
  */
-public class Prize extends Player {
+public class Prize{
+    int money = 0;
 
-    public Prize(String player, int money) {
-        super(player, money);
-    }
-
-    public void Prize() {
-        super.setMoney(super.getMoney() + 1000000);
+    public Prize(int money) 
+    {
+       
     }
 }
