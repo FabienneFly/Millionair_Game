@@ -29,14 +29,18 @@ public class Round {
         multipleChoiceQuestion = new MultipleChoiceQuestion();
         life = new Life();
 
-        for (int i = 0; i < 10; i++) {
-            multipleChoiceQuestion.fetchQuestion(i);
+        int questionIndex = 0;
+
+        while (questionIndex < 10) {
+            multipleChoiceQuestion.fetchQuestion(questionIndex);
 
             Scanner scanner = new Scanner(System.in);
-            List<String> shuffledAnswers = multipleChoiceQuestion.printQuestion(i);
+            List<String> shuffledAnswers = multipleChoiceQuestion.printQuestion(questionIndex);
             String playerAnswerString = "";
+            boolean questionAnsweredOrSkipped = false;
 
-            while (true) {
+            while (!questionAnsweredOrSkipped) {
+                //TODO: Make output into string and change after use (delete the joker which was already used)
                 System.out.println("Press 'H' button for a hint, press 'T' to Skip the question or enter your answer!");
                 playerAnswerString = scanner.nextLine().toUpperCase();
 
@@ -46,35 +50,37 @@ public class Round {
                 } else if (playerAnswerString.equals("T")) {
                     // Use skip option
                     life.useSkip();
-                    break;
+                    questionIndex++;
+                    questionAnsweredOrSkipped = true;
                 } else {
-                    break;
+                    try {
+                        int playerAnswer = Integer.parseInt(playerAnswerString);
+
+                        if (shuffledAnswers.get(playerAnswer - 1).equals(multipleChoiceQuestion.getCorrectAnswer())) {
+                            System.out.println("Correct! You get +100,000$");
+                            System.out.println("");
+                            if (questionIndex == 9) {
+                                System.out.println("Congratulations! You answered all 10 questions correctly.");
+                                saveScore.saveStats(player.getName(), player.getMoney());
+                            }
+                            questionIndex++;
+                            questionAnsweredOrSkipped = true;
+                        } else {
+                            System.out.println("Incorrect. The correct answer is: " + multipleChoiceQuestion.getCorrectAnswer());
+                            System.out.println("Thank you for playing, your score is: " + player.getMoney() + "$");
+                            saveScore.saveStats(player.getName(), player.getMoney());
+                            questionIndex = 10; // Exit the loop
+                            questionAnsweredOrSkipped = true;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Please enter a valid number.");
+                        System.out.println("");
+                    }
                 }
             }
 
             if (playerAnswerString.toLowerCase().equals("x")) {
                 break;
-            }
-
-            try {
-                int playerAnswer = Integer.parseInt(playerAnswerString);
-
-                if (shuffledAnswers.get(playerAnswer - 1).equals(multipleChoiceQuestion.getCorrectAnswer())) {
-                    System.out.println("Correct! You get +100,000$");
-                    System.out.println("");
-                    if (i == 9) {
-                        System.out.println("Congratulations! You answered all 10 questions correctly.");
-                        saveScore.saveStats(player.getName(), player.getMoney());
-                    }
-                } else {
-                    System.out.println("Incorrect. The correct answer is: " + multipleChoiceQuestion.getCorrectAnswer());
-                    System.out.println("Thank you for playing, your score is: " + player.getMoney() + "$");
-                    saveScore.saveStats(player.getName(), player.getMoney());
-                    break;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number.");
-                System.out.println("");
             }
         }
     }

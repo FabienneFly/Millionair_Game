@@ -6,17 +6,17 @@ import java.util.List;
 
 public class Life {
 
-    private boolean fiftyFiftyUsed;
+    private int hintCount;
     private boolean skipUsed;
 
     public Life() {
-        fiftyFiftyUsed = false;
+        hintCount = 0;
         skipUsed = false;
     }
 
     public void useFiftyFifty(String correctAnswer, String[] answers) {
-        if (fiftyFiftyUsed)  {
-            System.out.println("You have already used your 50/50 hint.");
+        if (hintCount >= 1) {
+            System.out.println("You have already used all your hints.");
             return;
         }
         // Find the index of the correct answer
@@ -43,6 +43,7 @@ public class Life {
                 System.out.println((i + 1) + ". " + answers[i]);
             }
         }
+        hintCount++;
     }
 
     public void useSkip() {
@@ -50,45 +51,15 @@ public class Life {
             System.out.println("You have already used your skip option.");
             return;
         }
-
         skipUsed = true;
         System.out.println("Skipping the current question...");
     }
 
-    public boolean isFiftyFiftyUsed() {
-        return fiftyFiftyUsed;
+    public boolean isHintLimitReached() {
+        return hintCount >= 1;
     }
 
     public boolean isSkipUsed() {
         return skipUsed;
     }
 }
-
-//package com.mycompany.millionair_game;
-//
-//public class Life {
-//
-//    private Hint fiftyFifty;
-//    private Skip skip;
-//
-//    public Life() {
-//        fiftyFifty = new Hint();
-//        skip = new Skip();
-//    }
-//
-//    public void useFiftyFifty(String correctAnswer, String[] answers) {
-//        fiftyFifty.use(correctAnswer, answers);
-//    }
-//
-//    public void useSkip() {
-//        skip.use();
-//    }
-//
-//    public boolean isFiftyFiftyUsed() {
-//        return fiftyFifty.isUsed();
-//    }
-//
-//    public boolean isSkipUsed() {
-//        return skip.isUsed();
-//    }
-//}
