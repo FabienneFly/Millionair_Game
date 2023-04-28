@@ -25,7 +25,7 @@ public class Round {
     }
 
     public void playQuestion() {
-        multipleChoiceQuestion = new MultipleChoiceQuestion();
+        multipleChoiceQuestion = new MultipleChoiceQuestion("sdf");
         hint = new Hint();
         skip = new Skip();
         int questionIndex = 0;
@@ -34,7 +34,7 @@ public class Round {
             multipleChoiceQuestion.fetchQuestion(questionIndex);
 
             Scanner scanner = new Scanner(System.in);
-            List<String> shuffledAnswers = multipleChoiceQuestion.printQuestion(questionIndex);
+            List<String> shuffledAnswers = multipleChoiceQuestion.display(questionIndex);
             String playerAnswerString = "";
             boolean questionAnsweredOrSkipped = false;
 

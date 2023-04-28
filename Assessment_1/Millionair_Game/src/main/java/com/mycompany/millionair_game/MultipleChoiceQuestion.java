@@ -3,20 +3,26 @@ package com.mycompany.millionair_game;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MultipleChoiceQuestion {
+public class MultipleChoiceQuestion extends Question {
 
     private String question;
     private String correctAnswer;
     private String[] wrongAnswers;
 
-    
+    public MultipleChoiceQuestion(String questionText) {
+        super(questionText);
+    }
+
+    @Override
     public void fetchQuestion(int questionIndex) {
         try {
             // API
@@ -48,16 +54,25 @@ public class MultipleChoiceQuestion {
             for (int j = 0; j < wrongAnswersArray.length(); j++) {
                 wrongAnswers[j] = wrongAnswersArray.getString(j);
             }
-            // Save the question to a file
-            FileIO fileIO = new FileIO();
-            fileIO.saveQuestion(question);
+            //Save the question to questions.txt
+            saveQuestionToFile();
 
-        } catch (Exception e) {
+        } catch (IOException | JSONException e) {
             System.out.println("Error: " + e.getMessage());
         }
+
     }
 
-    public List<String> printQuestion(int questionIndex) {
+    //save the Question to a File
+    public void saveQuestionToFile() {
+        FileIO fileIO = new FileIO();
+        fileIO.saveQuestion(question);
+
+    }
+    
+    //Prints Question
+    @Override
+    public List<String> display(int questionIndex) {
         System.out.println((questionIndex + 1) + ". " + question);
 
         // Create a list to hold all answers (correct and incorrect)
@@ -70,8 +85,8 @@ public class MultipleChoiceQuestion {
 
         // Print
         for (int j = 0; j < allAnswers.size(); j++) {
-            System.out.println("  " + (j + 1) + ". " + 
-allAnswers.get(j));
+            System.out.println("  " + (j + 1) + ". "
+                    + allAnswers.get(j));
         }
         System.out.println();
         return allAnswers;

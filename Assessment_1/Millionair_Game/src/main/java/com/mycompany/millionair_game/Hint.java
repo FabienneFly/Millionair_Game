@@ -3,11 +3,11 @@ package com.mycompany.millionair_game;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class Hint extends Joker {
 
     public void useFiftyFifty(String correctAnswer, String[] answers) {
+        //Tests if Player still has a hint
         if (isUsed()) {
             System.out.println("You have already used all your hints.");
             return;
@@ -29,6 +29,7 @@ public class Hint extends Joker {
         }
         Collections.shuffle(incorrectAnswers);
         incorrectAnswers = incorrectAnswers.subList(0, 1);
+        
         // Print the hint
         System.out.println("Here are your options:");
         for (int i = 0; i < answers.length; i++) {

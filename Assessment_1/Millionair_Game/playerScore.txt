@@ -11,3 +11,6 @@ asdf - 400000
 fabi - 0
 fabii - 100000
 asd - 0
+kira - 300000
+Kira - 100000
+Fabienne - 300000
