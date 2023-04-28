@@ -4,7 +4,6 @@
  */
 package com.mycompany.millionair_game;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,15 +13,14 @@ import java.util.Scanner;
  */
 public class Round {
 
-    private final HashMap<String, Player> players;
     private final Player player;
     private MultipleChoiceQuestion multipleChoiceQuestion;
     private final FileIO score = new FileIO();
     private Hint hint;
     private Skip skip;
+    private GameStart gameStart = new GameStart();
 
     public Round(Player player) {
-        this.players = new HashMap<>();
         this.player = player;
     }
 
@@ -44,17 +42,21 @@ public class Round {
                 System.out.println(getJokerMessage());
                 playerAnswerString = scanner.nextLine().toUpperCase();
 
-                switch (playerAnswerString) {
-                    case "H":
+                switch (playerAnswerString.toLowerCase()) {
+                    case "h":
                         // Use 50/50 hint
                         hint.useFiftyFifty(multipleChoiceQuestion.getCorrectAnswer(), shuffledAnswers.toArray(new String[0]));
                         break;
-                    case "T":
+                    case "t":
                         // Use skip option
                         if (skip.useSkip()) {
                             questionIndex++;
                             questionAnsweredOrSkipped = true;
                         }
+                        break;
+                    case "x":
+                        // Use exit
+                        gameStart.exitProgram();
                         break;
                     default:
                         try {
@@ -89,7 +91,7 @@ public class Round {
                 }
             }
 
-            if (playerAnswerString.toLowerCase().equals("x")) {
+            if (playerAnswerString.equalsIgnoreCase("x")) {
                 break;
             }
         }

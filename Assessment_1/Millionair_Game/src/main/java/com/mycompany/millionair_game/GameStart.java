@@ -20,12 +20,10 @@ public class GameStart {
 
     public void start() {
         String playerInput;
-
         System.out.println("Welcome to the Who wants to be a millionair game :) Here are the rules:");
         FileIO helpScreen = new FileIO();
         helpScreen.HelpScreen();
         boolean validInput = false;
-        int index = 0;
 
         do {
             try {
@@ -43,7 +41,7 @@ public class GameStart {
                     validInput = true;
 
                 } else if (playerInput.toLowerCase().equals("x")) {
-                    System.out.println("Have a nice day");
+                    exitProgram();
                     validInput = true;
                 } else {
                     throw new InputMismatchException();
@@ -54,6 +52,11 @@ public class GameStart {
         } while (!validInput);
 
         scanner.close();
+    }
+
+    public void exitProgram() {
+        System.out.println("Have a nice day");
+        System.exit(0);
     }
 
 }

@@ -5,3 +5,9 @@ fab - 0
 fab - 0
 fa - 200000
 kk - 0
+Kira - 0
+Kira - 0
+asdf - 400000
+fabi - 0
+fabii - 100000
+asd - 0
