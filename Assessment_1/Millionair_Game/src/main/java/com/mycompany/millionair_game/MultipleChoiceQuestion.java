@@ -12,7 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MultipleChoiceQuestion extends Question {
+public class MultipleChoiceQuestion extends AbstractQuestion {
 
     private String question;
     private String correctAnswer;
@@ -69,7 +69,7 @@ public class MultipleChoiceQuestion extends Question {
 
     }
 
-    //save the Question to a File
+    //save the AbstractQuestion to a File
     @Override
     public void saveQuestionToFile() {
         FileIO fileIO = new FileIO();
@@ -77,7 +77,7 @@ public class MultipleChoiceQuestion extends Question {
 
     }
 
-    //Prints Question
+    //Prints AbstractQuestion
     @Override
     public List<String> display(int questionIndex) {
         System.out.println((questionIndex + 1) + ". " + question);

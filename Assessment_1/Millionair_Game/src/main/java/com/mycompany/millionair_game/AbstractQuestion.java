@@ -2,10 +2,10 @@ package com.mycompany.millionair_game;
 
 import java.util.List;
 
-public abstract class Question {
+public abstract class AbstractQuestion {
 
 
-    public Question() {
+    public AbstractQuestion() {
     }
 
     public abstract void fetchQuestion(int i);
