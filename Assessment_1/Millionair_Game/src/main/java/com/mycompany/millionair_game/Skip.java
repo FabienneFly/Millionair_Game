@@ -1,6 +1,6 @@
 package com.mycompany.millionair_game;
 
-public class Skip extends Joker {
+public class Skip extends AbstractJoker {
 
     public boolean useSkip() {
         if (isUsed()) {

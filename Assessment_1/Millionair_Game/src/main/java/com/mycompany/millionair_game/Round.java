@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.millionair_game;
 
 import java.util.List;
@@ -18,14 +14,15 @@ public class Round {
     private final FileIO score = new FileIO();
     private Hint hint;
     private Skip skip;
-    private GameStart gameStart = new GameStart();
+    private final GameStart gameStart = new GameStart();
 
     public Round(Player player) {
         this.player = player;
     }
 
+    //Start a round
     public void playQuestion() {
-        multipleChoiceQuestion = new MultipleChoiceQuestion("sdf");
+        multipleChoiceQuestion = new MultipleChoiceQuestion();
         hint = new Hint();
         skip = new Skip();
         int questionIndex = 0;
@@ -62,26 +59,32 @@ public class Round {
                         try {
                         int playerAnswer = Integer.parseInt(playerAnswerString);
 
-                        if (shuffledAnswers.get(playerAnswer - 1).equals(multipleChoiceQuestion.getCorrectAnswer())) {
-                            System.out.println("Correct! You get +100,000$");
-                            player.setMoney(player.getMoney() + 100000);
-                            System.out.println("");
-                            if (questionIndex == 9) {
-                                System.out.println("Congratulations! You answered all 10 questions correctly.");
+                        if (playerAnswer > 0 && playerAnswer <= shuffledAnswers.size()) {
+                            if (shuffledAnswers.get(playerAnswer - 1).equals(multipleChoiceQuestion.getCorrectAnswer())) {
+                                System.out.println("Correct! You get +100,000$");
+                                player.setMoney(player.getMoney() + 100000);
+                                System.out.println("");
+                                if (questionIndex == 9) {
+                                    System.out.println("Congratulations! You answered all 10 questions correctly.");
+                                    score.saveStats(player.getName(), player.getMoney());
+                                    score.printHighScores();
+
+                                }
+                                questionIndex++;
+                                questionAnsweredOrSkipped = true;
+                            } else {
+                                System.out.println("Incorrect. The correct answer is: " + multipleChoiceQuestion.getCorrectAnswer() + "\n");
+                                System.out.println("###############################################");
+                                System.out.println("Thank you for playing, your score is: " + player.getMoney() + "$");
+                                System.out.println("############################################### \n");
+
                                 score.saveStats(player.getName(), player.getMoney());
                                 score.printHighScores();
-
+                                questionIndex = 10; // Exit the loop
+                                questionAnsweredOrSkipped = true;
                             }
-                            questionIndex++;
-                            questionAnsweredOrSkipped = true;
                         } else {
-                            System.out.println("Incorrect. The correct answer is: " + multipleChoiceQuestion.getCorrectAnswer());
-                            System.out.println("Thank you for playing, your score is: " + player.getMoney() + "$");
-
-                            score.saveStats(player.getName(), player.getMoney());
-                            score.printHighScores();
-                            questionIndex = 10; // Exit the loop
-                            questionAnsweredOrSkipped = true;
+                            System.out.println("Invalid input. Please enter a number between 1 and " + shuffledAnswers.size() + ".");
                         }
                     } catch (NumberFormatException e) {
                         System.out.println("Invalid input. Please enter a valid number.");
@@ -97,6 +100,7 @@ public class Round {
         }
     }
 
+    //Message whether Jokers are used or not
     public String getJokerMessage() {
         if (!hint.isUsed() && !skip.isUsed()) {
             return "Enter your answer or press 'H' for a hint. Press 'T' to skip the question.";

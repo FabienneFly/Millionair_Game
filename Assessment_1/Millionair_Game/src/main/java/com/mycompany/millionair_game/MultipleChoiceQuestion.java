@@ -17,30 +17,30 @@ public class MultipleChoiceQuestion extends Question {
     private String question;
     private String correctAnswer;
     private String[] wrongAnswers;
+    private static final String API_ENDPOINT = "https://opentdb.com/api.php?amount=1&difficulty=easy&type=multiple";
 
-    public MultipleChoiceQuestion(String questionText) {
-        super(questionText);
-    }
-
+    //fetches a question from https://opentdb.com/api_config.php
     @Override
     public void fetchQuestion(int questionIndex) {
         try {
             // API
-            String endpoint = "https://opentdb.com/api.php?amount=1&difficulty=easy&type=multiple";
+            String endpoint = API_ENDPOINT;
             URL url = new URL(endpoint);
 
             // HTTP connection & request method
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
-
+            StringBuilder response;
+            
             // Read response
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+            try (
+                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+                String inputLine;
+                response = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
             }
-            in.close();
 
             // Parse the JSON response and extract the question
             // Chatgpt
@@ -49,6 +49,12 @@ public class MultipleChoiceQuestion extends Question {
             JSONObject resultObj = resultsArr.getJSONObject(0);
             question = resultObj.getString("question");
             correctAnswer = resultObj.getString("correct_answer");
+
+            //Codereview ChatGPT
+            if (question == null || correctAnswer == null) {
+                throw new IllegalStateException("Error: question or correctAnswer is null.");
+
+            }
             JSONArray wrongAnswersArray = resultObj.getJSONArray("incorrect_answers");
             wrongAnswers = new String[wrongAnswersArray.length()];
             for (int j = 0; j < wrongAnswersArray.length(); j++) {
@@ -64,12 +70,13 @@ public class MultipleChoiceQuestion extends Question {
     }
 
     //save the Question to a File
+    @Override
     public void saveQuestionToFile() {
         FileIO fileIO = new FileIO();
         fileIO.saveQuestion(question);
 
     }
-    
+
     //Prints Question
     @Override
     public List<String> display(int questionIndex) {
@@ -92,6 +99,7 @@ public class MultipleChoiceQuestion extends Question {
         return allAnswers;
     }
 
+    
     public String getCorrectAnswer() {
         return correctAnswer;
     }

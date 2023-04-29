@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Hint extends Joker {
+public class Hint extends AbstractJoker {
 
     public void useFiftyFifty(String correctAnswer, String[] answers) {
-        //Tests if Player still has a hint
+        
+        //Tests if player still has a hint
         if (isUsed()) {
             System.out.println("You have already used all your hints.");
             return;

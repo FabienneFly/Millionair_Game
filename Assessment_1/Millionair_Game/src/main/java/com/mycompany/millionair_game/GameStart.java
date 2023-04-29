@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.millionair_game;
 
 import java.util.InputMismatchException;
@@ -15,16 +11,18 @@ public class GameStart {
 
     static Scanner scanner = new Scanner(System.in);
 
-    public GameStart() {
-    }
-
     public void start() {
-        String playerInput;
-        System.out.println("Welcome to the Who wants to be a millionair game :) Here are the rules:");
-        FileIO helpScreen = new FileIO();
-        helpScreen.HelpScreen();
         boolean validInput = false;
+        String playerInput;
 
+        //Welcomes Player
+        System.out.println("Welcome to the Who wants to be a millionair game :) Here are the rules:\n");
+
+        //Prints the Helpscreen
+        FileIO helpScreen = new FileIO();
+        helpScreen.helpScreen();
+
+        //Handles UserInput (Name or Exit)
         do {
             try {
                 System.out.print("Enter 1 to continue or x to exit: ");
@@ -32,30 +30,39 @@ public class GameStart {
                 System.out.println("");
 
                 if (playerInput.equals("1")) {
-                    System.out.println("Please enter your Name: ");
-                    String playerName = scanner.nextLine();
-                    Player currentPlayer = new Player(playerName, 0);
-
-                    Round round = new Round(currentPlayer);
-                    round.playQuestion();
+                    playerName();
                     validInput = true;
 
-                } else if (playerInput.toLowerCase().equals("x")) {
+                } else if (playerInput.equalsIgnoreCase("x")) {
                     exitProgram();
                     validInput = true;
                 } else {
                     throw new InputMismatchException();
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter 1 or x.");
+                System.out.print("Invalid input. Please enter 1 or x.");
             }
         } while (!validInput);
 
         scanner.close();
     }
 
+    //UserName
+    public void playerName() {
+        System.out.print("Please enter your Name: ");
+        String playerName = scanner.nextLine();
+        Player currentPlayer = new Player(playerName, 0);
+        System.out.println(" ");
+
+        //New Round
+        Round round = new Round(currentPlayer);
+        round.playQuestion();
+
+    }
+
+    //Exit Program
     public void exitProgram() {
-        System.out.println("Have a nice day");
+        System.out.println("Have a nice day!");
         System.exit(0);
     }
 
