@@ -56,7 +56,7 @@ public class FileIO {
         System.out.println("High Scores:");
         int numberOfPlayers = Math.min(highScores.size(), 3);
         for (int i = 1; i < numberOfPlayers+1; i++) {
-            System.out.println(i + ": " + highScores.get(i).getName() + " - " + highScores.get(i).getMoney());
+            System.out.println(i + ": " + highScores.get(i-1).getName() + " - " + highScores.get(i-1).getMoney());
         }
         System.out.println("");
     }
